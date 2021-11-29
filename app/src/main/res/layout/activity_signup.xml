@@ -34,6 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/signupTitle">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailSignup1"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:textCursorDrawable="@null"
@@ -59,6 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/emailSignup">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usernameSignup1"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:textCursorDrawable="@null"
@@ -85,6 +87,8 @@
         app:layout_constraintTop_toBottomOf="@+id/usernameSignup">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordSignup1"
+
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
@@ -112,6 +116,7 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordSignup">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordSignupMatch1"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
@@ -131,4 +136,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordSignupMatch" />
+
+
+
+    p
 </androidx.constraintlayout.widget.ConstraintLayout>
