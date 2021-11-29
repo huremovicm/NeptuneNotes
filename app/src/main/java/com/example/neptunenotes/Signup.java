@@ -14,9 +14,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.annotations.Nullable;
 
 public class Signup extends AppCompatActivity {
 
@@ -67,24 +69,37 @@ public class Signup extends AppCompatActivity {
                     return;
                 }
                 if (password.isEmpty()) {
-                    editTextPassword.setError("Password is requried!");
+                    TextInputLayout  l = findViewById(R.id.passwordSignup);
+                    l.setError("Password is requried!");
                     editTextPassword.requestFocus();
                     return;
 
                 }
                 if (password.length() < 6) {
-                    editTextPassword.setError("Minimum password length should be 6 characters!");
+                    TextInputLayout  l = findViewById(R.id.passwordSignup);
+                    l.setError("Minimum password length should be 6 characters!");
                     editTextPassword.requestFocus();
                     return;
                 }
                 if (passwordconf.isEmpty()) {
-                    confPassword.setError("Password is requried!");
+                    TextInputLayout  l = findViewById(R.id.passwordSignupMatch);
+                    l.setError("Password is requried!");
                     confPassword.requestFocus();
                     return;
 
                 }
                 if (passwordconf.length() < 6) {
-                    confPassword.setError("Minimum password length should be 6 characters!");
+                    TextInputLayout  l = findViewById(R.id.passwordSignupMatch);
+                    l.setError("Minimum password length should be 6 characters!");
+                    confPassword.requestFocus();
+                    return;
+                }
+
+                String passwd1 = password;
+                String passwd2 = passwordconf;
+                if (!passwd1.equals(passwd2)) {
+                    TextInputLayout  l = findViewById(R.id.passwordSignupMatch);
+                    l.setError("Password mismatch!");
                     confPassword.requestFocus();
                     return;
                 }

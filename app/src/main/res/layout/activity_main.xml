@@ -47,6 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/motto">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailLogin1"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:textCursorDrawable="@null"
@@ -75,6 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/emailLogin">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordLogin1"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"

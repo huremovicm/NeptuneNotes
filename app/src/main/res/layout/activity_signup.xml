@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/signupSt"
-        android:textSize="45dp"
+        android:textSize="45sp"
         android:layout_marginTop="20dp"
         android:textColor="@color/neptune_blue_150"
         app:layout_constraintEnd_toEndOf="parent"
