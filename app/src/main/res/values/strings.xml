@@ -6,4 +6,7 @@
     <string name="password">Type your password</string>
     <string name="loginSt">Login</string>
     <string name="signupSt">Sign Up</string>
+    <string name="usernameSt">Type your username</string>
+    <string name="matchPass">Retype your password</string>
+    <string name="create">Create account</string>
 </resources>
