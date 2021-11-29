@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Neptune Notes</string>
+    <string name="headerText">Neptune Notes</string>
+    <string name="motto">Napisi bilo sta!</string>
+    <string name="email">Unesite Vas email</string>
+    <string name="password">Unesite Vasu lozinku</string>
+</resources>

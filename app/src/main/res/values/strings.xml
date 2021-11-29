@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Neptune Notes</string>
+    <string name="headerText">Neptune Notes</string>
+    <string name="motto">Write anything!</string>
+    <string name="email">Type your email</string>
+    <string name="password">Type your password</string>
+    <string name="loginSt">Login</string>
+    <string name="signupSt">Sign Up</string>
+</resources>
