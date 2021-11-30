@@ -100,5 +100,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public void onBackPressed() {
+        Intent backToMain = new Intent(Intent.ACTION_MAIN);
+        backToMain.addCategory(Intent.CATEGORY_HOME);
+        backToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(backToMain);
+    }
 
 }

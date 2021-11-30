@@ -10,4 +10,5 @@
     <string name="matchPass">Retype your password</string>
     <string name="create">Create account</string>
     <string name="logout">Logout</string>
+    <string name="greeting">Welcome, </string>
 </resources>

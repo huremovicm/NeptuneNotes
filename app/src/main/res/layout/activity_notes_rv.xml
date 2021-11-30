@@ -7,11 +7,13 @@
     tools:context=".NotesRV">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="261dp"
-        android:layout_height="104dp"
-        android:text="TextView"
-        android:textSize="26sp"
+        android:id="@+id/greetingId"
+        android:layout_width="274dp"
+        android:layout_height="92dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/greeting"
+        android:textColor="@color/neptune_blue_150"
+        android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
