@@ -21,10 +21,33 @@
     <Button
         android:id="@+id/logout"
         android:layout_width="280dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginBottom="30dp"
         android:text="@string/logout"
+        android:backgroundTint="@color/neptune_blue_150"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/dateTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/greetingId" />
+
+    <Button
+        android:id="@+id/createNote"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/neptune_blue_231"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_baseline_add_24"
+        android:text="@string/new_note"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateTxt" />
 </androidx.constraintlayout.widget.ConstraintLayout>

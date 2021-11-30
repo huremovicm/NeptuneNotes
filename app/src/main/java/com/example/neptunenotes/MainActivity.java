@@ -18,6 +18,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
     private Button signupBtn, loginBtn;
     private TextInputEditText edtEmailLogin, edtTxtPassword;

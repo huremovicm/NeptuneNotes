@@ -22,14 +22,19 @@ import com.google.firebase.ktx.Firebase;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class NotesRV extends AppCompatActivity {
 
-    private Button logoutBtn;
-    private TextView greetingNotesRV;
+    private Button logoutBtn, createNote;
+    private TextView greetingNotesRV, date;
     private FirebaseAuth mAuth;
-    ;
+
+
 
 
     @Override
@@ -76,7 +81,20 @@ public class NotesRV extends AppCompatActivity {
         });
 
 
+        date = findViewById(R.id.dateTxt);
 
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        date.setText(formattedDate);
+
+        createNote = findViewById(R.id.createNote);
+        createNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(NotesRV.this, Note.class));
+            }
+        });
 
 
     }

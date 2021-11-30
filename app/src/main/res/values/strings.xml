@@ -11,4 +11,7 @@
     <string name="create">Create account</string>
     <string name="logout">Logout</string>
     <string name="greeting">Welcome, </string>
+    <string name="new_note">Create a note</string>
+    <string name="n_title_hint">Note title</string>
+    <string name="note_txt_hint">Type your note here</string>
 </resources>
