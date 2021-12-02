@@ -2,12 +2,17 @@ package com.example.neptunenotes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.widgets.WidgetContainer;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +32,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class NotesRV extends AppCompatActivity {
 
     private Button logoutBtn, createNote;
     private TextView greetingNotesRV, date;
     private FirebaseAuth mAuth;
+    private ProgressDialog TempDialog;
+    private CountDownTimer CDT;
+    int i =5;
 
 
 
@@ -41,6 +51,8 @@ public class NotesRV extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_rv);
+
+
 
         logoutBtn = findViewById(R.id.logout);
 
@@ -61,7 +73,7 @@ public class NotesRV extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String username = dataSnapshot.getValue().toString();
-                greetingNotesRV.append(" "+username);
+                greetingNotesRV.append(" " + username);
             }
 
             @Override
@@ -97,7 +109,34 @@ public class NotesRV extends AppCompatActivity {
         });
 
 
+
+        TempDialog = new ProgressDialog(NotesRV.this);
+        TempDialog.setMessage("Please wait...");
+        TempDialog.setCancelable(false);
+        TempDialog.setProgress(i);
+        TempDialog.show();
+
+        CDT = new CountDownTimer(3000, 1000)
+        {
+            public void onTick(long millisUntilFinished)
+            {
+                TempDialog.setMessage("Please wait..");
+                i--;
+            }
+
+            public void onFinish()
+            {
+                TempDialog.dismiss();
+
+            }
+        }.start();
+
+
+
     }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -106,4 +145,9 @@ public class NotesRV extends AppCompatActivity {
         backToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(backToMain);
     }
+
+
+
+
+
 }

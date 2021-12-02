@@ -3,6 +3,7 @@ package com.example.neptunenotes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -116,6 +117,8 @@ public class Signup extends AppCompatActivity {
                                public void onComplete(@NonNull Task<Void> task) {
                                    if (task.isSuccessful()){
                                        Toast.makeText(Signup.this, "User has been signed up!", Toast.LENGTH_SHORT).show();
+                                       startActivity(new Intent(Signup.this, MainActivity.class));
+
                                    }else{
                                        Toast.makeText(Signup.this, "Faild to sign up user!", Toast.LENGTH_SHORT).show();
                                    }
