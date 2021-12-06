@@ -40,9 +40,12 @@ public class NotesRV extends AppCompatActivity {
     private Button logoutBtn, createNote;
     private TextView greetingNotesRV, date;
     private FirebaseAuth mAuth;
+    FirebaseUser fUser;
     private ProgressDialog TempDialog;
     private CountDownTimer CDT;
     int i =5;
+    private Integer numOfNotes = 0;
+
 
 
 
@@ -81,6 +84,26 @@ public class NotesRV extends AppCompatActivity {
 
             }
         });
+
+        FirebaseUser firebaseUser =  mAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference uidRef = rootRef.child("Notes");
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.child(uid).exists()) {
+                    addWelcomeNote();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        uidRef.addListenerForSingleValueEvent(eventListener);
 
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +154,40 @@ public class NotesRV extends AppCompatActivity {
             }
         }.start();
 
+
+
+    }
+
+    public void addWelcomeNote(){
+
+        fUser = mAuth.getCurrentUser();
+        String curentUserUid = fUser.getUid();
+
+        FirebaseDatabase fDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference dReference = fDatabase.getReference("Notes");
+
+
+        NoteOb welcomeNote = new NoteOb();
+
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        date.setText(formattedDate);
+
+
+        String welcomeTitle = "Welcome to Neptune Notes"; // need to be placed in strings.xml
+        String  welcomeDate = df.toString();
+        String welcomeContent = "Free feel to write anything.";
+
+        welcomeNote.setUsrUid(curentUserUid);
+        welcomeNote.setDateOfNote(welcomeDate);
+        welcomeNote.setNoteTitle(welcomeTitle);
+        welcomeNote.setNoteContent(welcomeContent);
+
+
+        String noteNo = "Note" + (numOfNotes.toString());
+
+        dReference.child(curentUserUid).child(noteNo).setValue(welcomeNote);
 
 
     }
