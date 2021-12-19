@@ -3,6 +3,8 @@ package com.example.neptunenotes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.solver.widgets.WidgetContainer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,6 +14,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +48,12 @@ public class NotesRV extends AppCompatActivity {
     private CountDownTimer CDT;
     int i =5;
     private Integer numOfNotes = 0;
+
+    private RecyclerView recyclerView;
+    private DatabaseReference db;
+    private noteAdapter nAdapter;
+    ArrayList<NoteOb> list;
+
 
 
 
@@ -155,6 +164,35 @@ public class NotesRV extends AppCompatActivity {
         }.start();
 
 
+        recyclerView = findViewById(R.id.noteList);
+        db = FirebaseDatabase.getInstance().getReference("Notes").child(mAuth.getCurrentUser().getUid());
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setReverseLayout(true);
+        llm.setStackFromEnd(true);
+        recyclerView.setLayoutManager(llm);
+
+
+        list = new ArrayList<>();
+        nAdapter = new noteAdapter(this, list);
+        recyclerView.setAdapter(nAdapter);
+
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    NoteOb note = dataSnapshot.getValue(NoteOb.class);
+                    list.add(note);
+                }
+
+                nAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
@@ -176,7 +214,7 @@ public class NotesRV extends AppCompatActivity {
 
 
         String welcomeTitle = "Welcome to Neptune Notes"; // need to be placed in strings.xml
-        String  welcomeDate = df.toString();
+        String  welcomeDate = formattedDate;
         String welcomeContent = "Free feel to write anything.";
 
         welcomeNote.setUsrUid(curentUserUid);
