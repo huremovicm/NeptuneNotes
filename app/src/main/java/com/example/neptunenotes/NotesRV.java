@@ -49,13 +49,10 @@ public class NotesRV extends AppCompatActivity {
     int i =5;
     private Integer numOfNotes = 0;
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView, noteItem;
     private DatabaseReference db;
     private noteAdapter nAdapter;
     ArrayList<NoteOb> list;
-
-
-
 
 
 
@@ -194,7 +191,15 @@ public class NotesRV extends AppCompatActivity {
             }
         });
 
+
+
+
     }
+
+
+
+
+
 
     public void addWelcomeNote(){
 
@@ -229,6 +234,8 @@ public class NotesRV extends AppCompatActivity {
 
 
     }
+
+
 
 
 

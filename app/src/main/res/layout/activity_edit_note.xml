@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Note">
+    tools:context=".EditNote">
 
     <EditText
-        android:id="@+id/noteTitle"
+        android:id="@+id/noteTitleEdit"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -20,13 +20,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/noteDate"
+        android:id="@+id/noteDateEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/noteTitle"
-        app:layout_constraintTop_toBottomOf="@+id/noteTitle" />
+        app:layout_constraintStart_toStartOf="@+id/noteTitleEdit"
+        app:layout_constraintTop_toBottomOf="@+id/noteTitleEdit" />
 
     <EditText
         android:id="@+id/edtNoteTxt"
@@ -48,15 +48,31 @@
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noteDate" />
+        app:layout_constraintTop_toBottomOf="@+id/noteDateEdit" />
 
     <Button
-        android:id="@+id/makeN"
-        android:layout_width="320dp"
+        android:id="@+id/save"
+        android:layout_width="155dp"
         android:layout_height="60dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="5dp"
         android:layout_marginBottom="30dp"
-        android:text="Create"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/delete"
+        app:layout_constraintStart_toStartOf="parent"></Button>
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#800000"
+        android:text="Delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/save"></Button>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
