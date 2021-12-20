@@ -56,7 +56,6 @@ public class noteAdapter extends RecyclerView.Adapter<noteAdapter.NoteViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), position + "", Toast.LENGTH_SHORT).show();
                 currentPos = position;
                 Intent intent = new Intent(v.getContext(), EditNote.class);
                 v.getContext().startActivity(intent);
