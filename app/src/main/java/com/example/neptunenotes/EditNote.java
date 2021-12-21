@@ -4,9 +4,13 @@ import static com.example.neptunenotes.noteAdapter.currentPos;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +29,8 @@ public class EditNote extends AppCompatActivity {
     private TextView noteDate;
     private EditText noteEditText;
     private String cp = Integer.toString(currentPos);
+
+    private Button deleteBtn;
 
 
 
@@ -58,6 +64,31 @@ public class EditNote extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+        deleteBtn = findViewById(R.id.delete);
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uidRef.child(uid).child("Note"+cp).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot data: dataSnapshot.getChildren()){
+                            data.getRef().removeValue();
+
+                        }
+
+                        startActivity(new Intent(EditNote.this, NotesRV.class));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("The read failed: " + databaseError.getCode());
+                    }
+                });
             }
         });
 
