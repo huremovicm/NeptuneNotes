@@ -22,13 +22,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+
     private Button signupBtn, loginBtn;
     private TextInputEditText edtEmailLogin, edtTxtPassword;
-
     private FirebaseAuth mAuth;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         signupBtn = findViewById(R.id.signupBtn);
         loginBtn = findViewById(R.id.loginBtn);
-
-
-
 
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mAuth = FirebaseAuth.getInstance();
 
-                edtEmailLogin = (TextInputEditText) findViewById(R.id.emailLogin1);
-                edtTxtPassword = (TextInputEditText) findViewById(R.id.passwordLogin1);
+                edtEmailLogin =  findViewById(R.id.emailLogin1);
+                edtTxtPassword =  findViewById(R.id.passwordLogin1);
 
                 String email = edtEmailLogin.getText().toString().trim();
                 String password = edtTxtPassword.getText().toString().trim();

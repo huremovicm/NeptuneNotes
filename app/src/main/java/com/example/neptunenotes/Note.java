@@ -13,20 +13,25 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 public class Note extends AppCompatActivity {
+
     private TextView date;
     private Button createNote;
     private TextView noteTitle, noteContent;
@@ -36,8 +41,6 @@ public class Note extends AppCompatActivity {
     FirebaseDatabase fDatabase;
     DatabaseReference dReference;
     FirebaseUser fUser;
-
-
 
 
     @Override
@@ -54,16 +57,15 @@ public class Note extends AppCompatActivity {
         createNote = findViewById(R.id.makeN);
 
 
-
         // Get Notes
         fDatabase = FirebaseDatabase.getInstance();
         dReference = fDatabase.getReference("Notes");
 
 
         // Make Welcome note
-         int noteCounter = 0;
+        int noteCounter = 0;
 
-        FirebaseUser firebaseUser =  FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = firebaseUser.getUid();
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
@@ -84,13 +86,14 @@ public class Note extends AppCompatActivity {
         uidRef.addListenerForSingleValueEvent(eventListener);
 
 
-
-
         createNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNote(numOfNotes);
+                createNote();
+
                 startActivity(new Intent(Note.this, NotesRV.class));
+
+
             }
         });
 
@@ -98,49 +101,47 @@ public class Note extends AppCompatActivity {
     }
 
 
+    public String date() {
 
 
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
 
-   public String date(){
+        return formattedDate;
 
+    }
 
-       Date c = Calendar.getInstance().getTime();
-       SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-       String formattedDate = df.format(c);
-
-       return formattedDate;
-
-   }
-
-    public void createNote(Integer numOfNotes){
+    public void createNote() {
 
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         String curentUserUid = fUser.getUid();
 
 
-
-
-       // createNote = findViewById(R.id.createNote);
+        // createNote = findViewById(R.id.createNote);
         noteTitle = findViewById(R.id.noteTitle);
         noteContent = findViewById(R.id.edtNoteTxt);
 
         String title = noteTitle.getText().toString();
         String date = date();
         String content = noteContent.getText().toString();
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
 
-        if(!title.isEmpty() && !content.isEmpty()){
+        if (!title.isEmpty() && !content.isEmpty()) {
             NoteOb noteToCreate = new NoteOb();
             noteToCreate.setUsrUid(curentUserUid);
             noteToCreate.setNoteTitle(title);
             noteToCreate.setDateOfNote(date);
             noteToCreate.setNoteContent(content);
-
-            String noteNo = "Note" + (numOfNotes.toString());
-
-            dReference.child(curentUserUid).child(noteNo).setValue(noteToCreate);
+            noteToCreate.setTimeStamp(timeStamp.replace(".",""));
 
 
-        }else{
+
+            dReference.child(curentUserUid).push().setValue(noteToCreate);
+
+            sortNotes();
+
+        } else {
             Toast.makeText(Note.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
         }
 
@@ -148,4 +149,19 @@ public class Note extends AppCompatActivity {
 
 
     }
+    public void sortNotes () {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference uidRef = rootRef.child("Notes").child(uid);
+
+        //uidRef.ord
+
+
+
+
+    }
 }
+

@@ -31,6 +31,7 @@ public class noteAdapter extends RecyclerView.Adapter<noteAdapter.NoteViewHolder
     Context context;
     ArrayList<NoteOb> list;
 
+
     public noteAdapter(Context context, ArrayList<NoteOb> list) {
         this.context = context;
         this.list = list;
@@ -57,7 +58,7 @@ public class noteAdapter extends RecyclerView.Adapter<noteAdapter.NoteViewHolder
             @Override
             public void onClick(View v) {
                 currentPos = position;
-                // Toast.makeText(v.getContext(), position + "", Toast.LENGTH_SHORT).show();
+                 Toast.makeText(v.getContext(), position + "", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), EditNote.class);
                 v.getContext().startActivity(intent);
             }

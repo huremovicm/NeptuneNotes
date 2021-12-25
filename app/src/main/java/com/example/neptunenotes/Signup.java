@@ -34,12 +34,12 @@ public class Signup extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        createBtn = (Button) findViewById(R.id.createAccount);
+        createBtn =  findViewById(R.id.createAccount);
 
-        editTextEmail = (TextInputEditText) findViewById(R.id.emailSignup1);
-        editTextUsername = (TextInputEditText) findViewById(R.id.usernameSignup1);
-        editTextPassword = (TextInputEditText) findViewById(R.id.passwordSignup1);
-        confPassword = (TextInputEditText) findViewById(R.id.passwordSignupMatch1);
+        editTextEmail = findViewById(R.id.emailSignup1);
+        editTextUsername = findViewById(R.id.usernameSignup1);
+        editTextPassword = findViewById(R.id.passwordSignup1);
+        confPassword = findViewById(R.id.passwordSignupMatch1);
 
 
         createBtn.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +125,7 @@ public class Signup extends AppCompatActivity {
                                }
                            });
                        }else{
-                           Toast.makeText(Signup.this, "Faild to sign up user!", Toast.LENGTH_SHORT).show();
+                           Toast.makeText(Signup.this, "Failed to sign up user!", Toast.LENGTH_SHORT).show();
 
                        }
                     }

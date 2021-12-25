@@ -1,5 +1,6 @@
 package com.example.neptunenotes;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 
 public class NoteOb{
@@ -7,16 +8,26 @@ public class NoteOb{
     private String dateOfNote;
     private String noteTitle;
     private String noteContent;
+    private String timeStamp;
 
     NoteOb(){
 
     }
 
-    public NoteOb(String usrUid, String dateOfNote, String noteTitle, String noteContent) {
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public NoteOb(String usrUid, String dateOfNote, String noteTitle, String noteContent, String timeStamp) {
         this.usrUid = usrUid;
         this.dateOfNote = dateOfNote;
         this.noteTitle = noteTitle;
         this.noteContent = noteContent;
+        this.timeStamp = timeStamp;
     }
 
     public void setUsrUid(String usrUid) {

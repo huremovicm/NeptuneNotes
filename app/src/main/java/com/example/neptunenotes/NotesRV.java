@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 public class NotesRV extends AppCompatActivity {
 
@@ -52,7 +53,11 @@ public class NotesRV extends AppCompatActivity {
     private RecyclerView recyclerView, noteItem;
     private DatabaseReference db;
     private noteAdapter nAdapter;
-    ArrayList<NoteOb> list;
+
+
+
+    public ArrayList<NoteOb> list;
+
 
 
 
@@ -77,7 +82,7 @@ public class NotesRV extends AppCompatActivity {
         String id = mAuth.getCurrentUser().getUid();
         DatabaseReference username = databaseUsers.child(id).child("username");
 
-
+        sortNotes();
         username.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -161,6 +166,8 @@ public class NotesRV extends AppCompatActivity {
         }.start();
 
 
+
+
         recyclerView = findViewById(R.id.noteList);
         db = FirebaseDatabase.getInstance().getReference("Notes").child(mAuth.getCurrentUser().getUid());
         recyclerView.setHasFixedSize(true);
@@ -201,6 +208,8 @@ public class NotesRV extends AppCompatActivity {
 
 
 
+
+
     public void addWelcomeNote(){
 
         fUser = mAuth.getCurrentUser();
@@ -221,19 +230,23 @@ public class NotesRV extends AppCompatActivity {
         String welcomeTitle = "Welcome to Neptune Notes"; // need to be placed in strings.xml
         String  welcomeDate = formattedDate;
         String welcomeContent = "Free feel to write anything.";
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
+
 
         welcomeNote.setUsrUid(curentUserUid);
         welcomeNote.setDateOfNote(welcomeDate);
         welcomeNote.setNoteTitle(welcomeTitle);
         welcomeNote.setNoteContent(welcomeContent);
+        welcomeNote.setTimeStamp(timeStamp.replace(".", ""));
 
 
-        String noteNo = "Note" + (numOfNotes.toString());
 
-        dReference.child(curentUserUid).child(noteNo).setValue(welcomeNote);
+        dReference.child(curentUserUid).push().setValue(welcomeNote);
 
 
     }
+
+
 
 
 
@@ -251,5 +264,20 @@ public class NotesRV extends AppCompatActivity {
 
 
 
+    public void sortNotes () {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference uidRef = rootRef.child("Notes").child(uid);
+
+
+        uidRef.orderByChild("timeStamp");
+        Log.d("m", uidRef.toString());
+
+
+
+    }
 
 }

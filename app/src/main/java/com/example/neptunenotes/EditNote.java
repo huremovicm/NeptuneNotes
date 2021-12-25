@@ -2,10 +2,12 @@ package com.example.neptunenotes;
 
 import static com.example.neptunenotes.noteAdapter.currentPos;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class EditNote extends AppCompatActivity {
 
@@ -29,6 +33,7 @@ public class EditNote extends AppCompatActivity {
     private TextView noteDate;
     private EditText noteEditText;
     private String cp = Integer.toString(currentPos);
+    private ArrayList<String> l = new ArrayList<String>();
 
     private Button deleteBtn;
 
@@ -45,25 +50,32 @@ public class EditNote extends AppCompatActivity {
 
         // Get a reference to our posts
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser =  mAuth.getCurrentUser();
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
         String uid = firebaseUser.getUid();
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference uidRef = rootRef.child("Notes");
+        DatabaseReference uidRef = rootRef.child("Notes").child(uid);
         // Attach a listener to read the data at our posts reference
-        uidRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Notes").child(mAuth.getCurrentUser().getUid());
+
+
+        db.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                NoteOb note = dataSnapshot.child(uid).child("Note"+cp).getValue(NoteOb.class);
-                noteEditTitle.setText(note.getNoteTitle());
-                noteDate.setText(note.getDateOfNote());
-                noteEditText.setText(note.getNoteContent());
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    NoteOb note = dataSnapshot.getValue(NoteOb.class);
+                    l.add(note.getTimeStamp());
+                }
+                //Integer s = l.size();
+               // Log.d("TAG", s.toString());
+
+               // Collections.reverse(l);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
@@ -72,12 +84,19 @@ public class EditNote extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uidRef.child(uid).child("Note"+cp).addListenerForSingleValueEvent(new ValueEventListener() {
+                db.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot data: dataSnapshot.getChildren()){
-                            data.getRef().removeValue();
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            NoteOb note = data.getValue(NoteOb.class);
+                            String ts = note.getTimeStamp();
+                            if (l.get(currentPos)==ts) {
+                                String s = data.getKey();
+                                Log.d("TAG", s);
+                            }else{
+                                //Log.d("TAG", l.get(currentPos)+" "+note.getTimeStamp());
+                            }
 
                         }
 
@@ -95,4 +114,8 @@ public class EditNote extends AppCompatActivity {
 
 
     }
+
+
+
+
 }
