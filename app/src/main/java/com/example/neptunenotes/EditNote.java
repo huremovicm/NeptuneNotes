@@ -35,7 +35,10 @@ public class EditNote extends AppCompatActivity {
     private String cp = Integer.toString(currentPos);
     private ArrayList<String> l = new ArrayList<String>();
 
-    private Button deleteBtn;
+
+
+
+    private Button deleteBtn, saveBtn;
 
 
 
@@ -61,16 +64,23 @@ public class EditNote extends AppCompatActivity {
 
 
         db.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                 ArrayList<NoteOb> n = new ArrayList<NoteOb>();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    NoteOb note = dataSnapshot.getValue(NoteOb.class);
-                    l.add(note.getTimeStamp());
-                }
-                //Integer s = l.size();
-               // Log.d("TAG", s.toString());
+                     n.add(dataSnapshot.getValue(NoteOb.class));
 
-               // Collections.reverse(l);
+                }
+                Integer s = n.size();
+
+                Log.d("TAG", s.toString());
+
+                NoteOb noteToSave = n.get(currentPos);
+                noteEditTitle.setText(noteToSave.getNoteTitle());
+                noteDate.setText(noteToSave.getDateOfNote());
+                noteEditText.setText(noteToSave.getNoteContent());
+
             }
 
             @Override
@@ -78,6 +88,32 @@ public class EditNote extends AppCompatActivity {
 
             }
         });
+
+
+
+
+
+
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    NoteOb note = dataSnapshot.getValue(NoteOb.class);
+                    l.add(note.getTimeStamp());
+                }
+                //Integer s = l.size();
+                // Log.d("TAG", s.toString());
+
+                // Collections.reverse(l);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
         deleteBtn = findViewById(R.id.delete);
 
@@ -91,10 +127,10 @@ public class EditNote extends AppCompatActivity {
                         for (DataSnapshot data : dataSnapshot.getChildren()) {
                             NoteOb note = data.getValue(NoteOb.class);
                             String ts = note.getTimeStamp();
-                            if (l.get(currentPos)==ts) {
-                                String s = data.getKey();
-                                Log.d("TAG", s);
-                            }else{
+                            if (l.get(currentPos) == ts) {
+                                db.child(data.getKey()).removeValue();
+
+                            } else {
                                 //Log.d("TAG", l.get(currentPos)+" "+note.getTimeStamp());
                             }
 
@@ -111,6 +147,14 @@ public class EditNote extends AppCompatActivity {
             }
         });
 
+        saveBtn = findViewById(R.id.save);
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
     }

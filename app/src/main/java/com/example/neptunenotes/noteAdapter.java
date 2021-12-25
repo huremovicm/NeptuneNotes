@@ -13,7 +13,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -30,6 +35,7 @@ public class noteAdapter extends RecyclerView.Adapter<noteAdapter.NoteViewHolder
     public static Integer currentPos;
     Context context;
     ArrayList<NoteOb> list;
+    ArrayList<NoteOb> list2;
 
 
     public noteAdapter(Context context, ArrayList<NoteOb> list) {
@@ -49,6 +55,9 @@ public class noteAdapter extends RecyclerView.Adapter<noteAdapter.NoteViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
+
+
 
         NoteOb noteOb = list.get(position);
         holder.noteTitle.setText(noteOb.getNoteTitle());
