@@ -34,6 +34,8 @@ public class EditNote extends AppCompatActivity {
     private EditText noteEditText;
     private String cp = Integer.toString(currentPos);
     private ArrayList<String> l = new ArrayList<String>();
+    private ArrayList<String> keys = new ArrayList<>();
+    private String getNoteKey;
 
 
 
@@ -152,6 +154,40 @@ public class EditNote extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                db.addListenerForSingleValueEvent(new ValueEventListener() {
+                    String currentNote;
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+
+                               String k =  data.getKey();
+                               keys.add(k);
+
+                        }
+                        currentNote = keys.get(currentPos);
+
+                        String newTitle = noteEditTitle.getText().toString();
+                        String newTitleContent = noteEditText.getText().toString();
+
+
+
+                        db.child(currentNote).child("noteTitle").setValue(newTitle);
+                        db.child(currentNote).child("noteContent").setValue(newTitleContent);
+
+                        startActivity(new Intent(EditNote.this, NotesRV.class));
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("The read failed: " + databaseError.getCode());
+                    }
+                });
+
+
 
             }
         });
