@@ -32,17 +32,10 @@ public class EditNote extends AppCompatActivity {
     private EditText noteEditTitle;
     private TextView noteDate;
     private EditText noteEditText;
-    private String cp = Integer.toString(currentPos);
     private ArrayList<String> l = new ArrayList<String>();
     private ArrayList<String> keys = new ArrayList<>();
-    private String getNoteKey;
-
-
-
 
     private Button deleteBtn, saveBtn;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +62,9 @@ public class EditNote extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                 ArrayList<NoteOb> n = new ArrayList<NoteOb>();
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
-                     n.add(dataSnapshot.getValue(NoteOb.class));
+                ArrayList<NoteOb> n = new ArrayList<NoteOb>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    n.add(dataSnapshot.getValue(NoteOb.class));
 
                 }
                 Integer s = n.size();
@@ -91,11 +84,6 @@ public class EditNote extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -103,10 +91,6 @@ public class EditNote extends AppCompatActivity {
                     NoteOb note = dataSnapshot.getValue(NoteOb.class);
                     l.add(note.getTimeStamp());
                 }
-                //Integer s = l.size();
-                // Log.d("TAG", s.toString());
-
-                // Collections.reverse(l);
             }
 
             @Override
@@ -114,7 +98,6 @@ public class EditNote extends AppCompatActivity {
 
             }
         });
-
 
 
         deleteBtn = findViewById(R.id.delete);
@@ -132,13 +115,17 @@ public class EditNote extends AppCompatActivity {
                             if (l.get(currentPos) == ts) {
                                 db.child(data.getKey()).removeValue();
 
-                            } else {
-                                //Log.d("TAG", l.get(currentPos)+" "+note.getTimeStamp());
                             }
-
                         }
 
-                        startActivity(new Intent(EditNote.this, NotesRV.class));
+                        if (l.size() == 1) {
+                            mAuth.signOut();
+                            Intent intent = new Intent(EditNote.this, MainActivity.class);
+                            startActivity(intent);
+                        } else {
+
+                            startActivity(new Intent(EditNote.this, NotesRV.class));
+                        }
                     }
 
                     @Override
@@ -162,8 +149,8 @@ public class EditNote extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot data : dataSnapshot.getChildren()) {
 
-                               String k =  data.getKey();
-                               keys.add(k);
+                            String k = data.getKey();
+                            keys.add(k);
 
                         }
                         currentNote = keys.get(currentPos);
@@ -172,9 +159,9 @@ public class EditNote extends AppCompatActivity {
                         String newTitleContent = noteEditText.getText().toString();
 
 
-
                         db.child(currentNote).child("noteTitle").setValue(newTitle);
                         db.child(currentNote).child("noteContent").setValue(newTitleContent);
+
 
                         startActivity(new Intent(EditNote.this, NotesRV.class));
 
@@ -188,14 +175,11 @@ public class EditNote extends AppCompatActivity {
                 });
 
 
-
             }
         });
 
 
     }
-
-
 
 
 }

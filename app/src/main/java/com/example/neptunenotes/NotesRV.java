@@ -47,34 +47,24 @@ public class NotesRV extends AppCompatActivity {
     FirebaseUser fUser;
     private ProgressDialog TempDialog;
     private CountDownTimer CDT;
-    int i =5;
+    int i = 5;
     private Integer numOfNotes = 0;
 
-    private RecyclerView recyclerView, noteItem;
+    private RecyclerView recyclerView;
     private DatabaseReference db;
     private noteAdapter nAdapter;
 
-
-
     public ArrayList<NoteOb> list;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_rv);
 
-
-
         logoutBtn = findViewById(R.id.logout);
-
-        greetingNotesRV = (TextView) findViewById(R.id.greetingId);
+        greetingNotesRV = findViewById(R.id.greetingId);
 
         mAuth = FirebaseAuth.getInstance();
-
-
         DatabaseReference databaseUsers;
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -82,7 +72,6 @@ public class NotesRV extends AppCompatActivity {
         String id = mAuth.getCurrentUser().getUid();
         DatabaseReference username = databaseUsers.child(id).child("username");
 
-        sortNotes();
         username.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -96,7 +85,7 @@ public class NotesRV extends AppCompatActivity {
             }
         });
 
-        FirebaseUser firebaseUser =  mAuth.getCurrentUser();
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
         String uid = firebaseUser.getUid();
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
@@ -104,8 +93,8 @@ public class NotesRV extends AppCompatActivity {
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.child(uid).exists()) {
-                    addWelcomeNote();
+                if (!dataSnapshot.child(uid).exists()) {
+                    addWelcomeNote(); //add welcome note if it is first login
                 }
             }
 
@@ -117,6 +106,7 @@ public class NotesRV extends AppCompatActivity {
         uidRef.addListenerForSingleValueEvent(eventListener);
 
 
+        // logout
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,39 +133,40 @@ public class NotesRV extends AppCompatActivity {
         });
 
 
+        recyclerView = findViewById(R.id.noteList);
 
+
+        // loading
         TempDialog = new ProgressDialog(NotesRV.this);
         TempDialog.setMessage("Please wait...");
         TempDialog.setCancelable(false);
         TempDialog.setProgress(i);
         TempDialog.show();
 
-        CDT = new CountDownTimer(3000, 1000)
-        {
-            public void onTick(long millisUntilFinished)
-            {
+        recyclerView.setVisibility(View.GONE);
+
+        CDT = new CountDownTimer(3000, 1000) {
+
+
+            public void onTick(long millisUntilFinished) {
                 TempDialog.setMessage("Please wait..");
                 i--;
             }
 
-            public void onFinish()
-            {
+            public void onFinish() {
                 TempDialog.dismiss();
+                recyclerView.setVisibility(View.VISIBLE);
+
 
             }
         }.start();
 
-
-
-
-        recyclerView = findViewById(R.id.noteList);
         db = FirebaseDatabase.getInstance().getReference("Notes").child(mAuth.getCurrentUser().getUid());
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setReverseLayout(true);
         llm.setStackFromEnd(true);
         recyclerView.setLayoutManager(llm);
-
 
         list = new ArrayList<>();
         nAdapter = new noteAdapter(this, list);
@@ -184,7 +175,7 @@ public class NotesRV extends AppCompatActivity {
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     NoteOb note = dataSnapshot.getValue(NoteOb.class);
                     list.add(note);
                 }
@@ -198,26 +189,16 @@ public class NotesRV extends AppCompatActivity {
             }
         });
 
-
-
-
     }
 
-
-
-
-
-
-
-
-    public void addWelcomeNote(){
+    // welcome note
+    public void addWelcomeNote() {
 
         fUser = mAuth.getCurrentUser();
-        String curentUserUid = fUser.getUid();
+        String currentUserUid = fUser.getUid();
 
         FirebaseDatabase fDatabase = FirebaseDatabase.getInstance();
         DatabaseReference dReference = fDatabase.getReference("Notes");
-
 
         NoteOb welcomeNote = new NoteOb();
 
@@ -228,30 +209,21 @@ public class NotesRV extends AppCompatActivity {
 
 
         String welcomeTitle = "Welcome to Neptune Notes"; // need to be placed in strings.xml
-        String  welcomeDate = formattedDate;
+        String welcomeDate = formattedDate;
         String welcomeContent = "Free feel to write anything.";
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
 
 
-        welcomeNote.setUsrUid(curentUserUid);
+        welcomeNote.setUsrUid(currentUserUid);
         welcomeNote.setDateOfNote(welcomeDate);
         welcomeNote.setNoteTitle(welcomeTitle);
         welcomeNote.setNoteContent(welcomeContent);
         welcomeNote.setTimeStamp(timeStamp.replace(".", ""));
 
-
-
-        dReference.child(curentUserUid).push().setValue(welcomeNote);
+        dReference.child(currentUserUid).push().setValue(welcomeNote);
 
 
     }
-
-
-
-
-
-
-
 
     @Override
     public void onBackPressed() {
@@ -261,23 +233,5 @@ public class NotesRV extends AppCompatActivity {
         startActivity(backToMain);
     }
 
-
-
-
-    public void sortNotes () {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = mAuth.getCurrentUser();
-        String uid = firebaseUser.getUid();
-
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference uidRef = rootRef.child("Notes").child(uid);
-
-
-        uidRef.orderByChild("timeStamp");
-        Log.d("m", uidRef.toString());
-
-
-
-    }
 
 }

@@ -30,18 +30,15 @@ public class noteAdapter extends RecyclerView.Adapter<noteAdapter.NoteViewHolder
 
     public void setList(ArrayList<NoteOb> list) {
         this.list = list;
-    }
+    } // not necessary
 
     public static Integer currentPos;
     Context context;
     ArrayList<NoteOb> list;
-    ArrayList<NoteOb> list2;
-
 
     public noteAdapter(Context context, ArrayList<NoteOb> list) {
         this.context = context;
         this.list = list;
-
 
     }
 
@@ -56,9 +53,6 @@ public class noteAdapter extends RecyclerView.Adapter<noteAdapter.NoteViewHolder
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-
-
-
         NoteOb noteOb = list.get(position);
         holder.noteTitle.setText(noteOb.getNoteTitle());
         holder.date.setText(noteOb.getDateOfNote());
@@ -67,7 +61,7 @@ public class noteAdapter extends RecyclerView.Adapter<noteAdapter.NoteViewHolder
             @Override
             public void onClick(View v) {
                 currentPos = position;
-                 Toast.makeText(v.getContext(), position + "", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(v.getContext(), position + "", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), EditNote.class);
                 v.getContext().startActivity(intent);
             }
@@ -85,18 +79,14 @@ public class noteAdapter extends RecyclerView.Adapter<noteAdapter.NoteViewHolder
 
         TextView noteTitle, date;
 
-
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
 
             noteTitle = itemView.findViewById(R.id.titleNoteList);
             date = itemView.findViewById(R.id.DateNoteList);
 
-
         }
 
     }
-
-
 
 }

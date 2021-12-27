@@ -25,8 +25,6 @@ public class Signup extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private TextInputEditText editTextEmail, editTextUsername, editTextPassword, confPassword;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +55,7 @@ public class Signup extends AppCompatActivity {
 
                 }
                 if (email.isEmpty()) {
-                    editTextEmail.setError("Email is requried!");
+                    editTextEmail.setError("Email is required!");
                     editTextEmail.requestFocus();
                     return;
 
@@ -69,7 +67,7 @@ public class Signup extends AppCompatActivity {
                 }
                 if (password.isEmpty()) {
                     TextInputLayout  l = findViewById(R.id.passwordSignup);
-                    l.setError("Password is requried!");
+                    l.setError("Password is required!");
                     editTextPassword.requestFocus();
                     return;
 
@@ -82,7 +80,7 @@ public class Signup extends AppCompatActivity {
                 }
                 if (passwordconf.isEmpty()) {
                     TextInputLayout  l = findViewById(R.id.passwordSignupMatch);
-                    l.setError("Password is requried!");
+                    l.setError("Password is required!");
                     confPassword.requestFocus();
                     return;
 
@@ -120,7 +118,7 @@ public class Signup extends AppCompatActivity {
                                        startActivity(new Intent(Signup.this, MainActivity.class));
 
                                    }else{
-                                       Toast.makeText(Signup.this, "Faild to sign up user!", Toast.LENGTH_SHORT).show();
+                                       Toast.makeText(Signup.this, "Failed to sign up user!", Toast.LENGTH_SHORT).show();
                                    }
                                }
                            });

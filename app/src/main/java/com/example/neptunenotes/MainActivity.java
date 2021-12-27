@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         signupBtn = findViewById(R.id.signupBtn);
         loginBtn = findViewById(R.id.loginBtn);
 
+        // Signup action
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,20 +44,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Login action
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAuth = FirebaseAuth.getInstance();
 
-                edtEmailLogin =  findViewById(R.id.emailLogin1);
-                edtTxtPassword =  findViewById(R.id.passwordLogin1);
+                edtEmailLogin = findViewById(R.id.emailLogin1);
+                edtTxtPassword = findViewById(R.id.passwordLogin1);
 
                 String email = edtEmailLogin.getText().toString().trim();
                 String password = edtTxtPassword.getText().toString().trim();
 
                 if (email.isEmpty()) {
                     TextInputLayout l = findViewById(R.id.emailLogin1);
-                    l.setError("Email is requried!");
+                    l.setError("Email is required!");
                     edtEmailLogin.requestFocus();
                     return;
                 }
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (password.isEmpty()) {
                     TextInputLayout l = findViewById(R.id.passwordLogin1);
-                    l.setError("Password is requried!");
+                    l.setError("Password is required!");
                     edtTxtPassword.requestFocus();
                     return;
                 }
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     edtTxtPassword.requestFocus();
                     return;
                 }
+                // Sign in
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(new Intent(MainActivity.this, NotesRV.class));
 
                         } else {
-                            Toast.makeText(MainActivity.this, "Faild to login!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Failed to login!", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -98,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
+
     @Override
     public void onBackPressed() {
         Intent backToMain = new Intent(Intent.ACTION_MAIN);
