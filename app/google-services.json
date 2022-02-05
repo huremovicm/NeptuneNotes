@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "647770465326",
+    "firebase_url": "https://neptune-notes-80f6a-default-rtdb.firebaseio.com",
+    "project_id": "neptune-notes-80f6a",
+    "storage_bucket": "neptune-notes-80f6a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647770465326:android:c761c7ab496019c07d6bbf",
+        "android_client_info": {
+          "package_name": "com.example.neptunenotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647770465326-rvog4uf77ofvhjmlk30se2vji2ajmep7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAvf4mUPpQIR2tpuEl23jsY_ZuHlyw920"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647770465326-rvog4uf77ofvhjmlk30se2vji2ajmep7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
