@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         signupBtn = findViewById(R.id.signupBtn);
         loginBtn = findViewById(R.id.loginBtn);
 
@@ -50,36 +51,42 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mAuth = FirebaseAuth.getInstance();
 
-                edtEmailLogin = findViewById(R.id.emailLogin1);
+               edtEmailLogin = findViewById(R.id.emailLogin1);
                 edtTxtPassword = findViewById(R.id.passwordLogin1);
 
                 String email = edtEmailLogin.getText().toString().trim();
                 String password = edtTxtPassword.getText().toString().trim();
 
                 if (email.isEmpty()) {
-                    TextInputLayout l = findViewById(R.id.emailLogin1);
+                    TextInputEditText l = (TextInputEditText)findViewById(R.id.emailLogin1);
                     l.setError("Email is required!");
                     edtEmailLogin.requestFocus();
                     return;
                 }
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    TextInputLayout l = findViewById(R.id.emailLogin1);
+                    TextInputEditText l = (TextInputEditText)findViewById(R.id.emailLogin1);
                     l.setError("Please provide valid email!");
                     edtEmailLogin.requestFocus();
                     return;
                 }
                 if (password.isEmpty()) {
-                    TextInputLayout l = findViewById(R.id.passwordLogin1);
+                    TextInputEditText l = (TextInputEditText)findViewById(R.id.passwordLogin1);
                     l.setError("Password is required!");
                     edtTxtPassword.requestFocus();
                     return;
                 }
                 if (password.length() < 6) {
-                    TextInputLayout l = findViewById(R.id.passwordLogin1);
+                    TextInputEditText l = (TextInputEditText)findViewById(R.id.passwordLogin1);
                     l.setError("Minimum password length should be 6 characters!");
                     edtTxtPassword.requestFocus();
                     return;
                 }
+
+                if (password.isEmpty() && email.isEmpty()){
+                    Toast.makeText(MainActivity.this, "Please fill email and password!", Toast.LENGTH_SHORT).show();
+                }
+
+
                 // Sign in
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -97,7 +104,10 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
+                edtEmailLogin.setText("");
+                edtTxtPassword.setText("");
             }
+
         });
 
 
